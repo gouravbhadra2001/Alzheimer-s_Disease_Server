@@ -31,6 +31,7 @@ def upload_file():
         uploaded_image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
         # Resize the image
         uploaded_image = cv2.resize(uploaded_image, (176, 176))
+        print("FIle Uploaded Successfully")
         return jsonify({'message': 'File uploaded successfully'}), 200
 
     except Exception as e:
@@ -49,7 +50,7 @@ def predict():
         prediction_probs = model.predict(np.expand_dims(uploaded_image, axis=0))
         predicted_class_index = np.argmax(prediction_probs)
         predicted_class_name = class_names[predicted_class_index]
-
+        print(f"Prediction Class Index: {predicted_class_index}")
         return jsonify({'prediction': predicted_class_name, 'confidence': float(prediction_probs[0][predicted_class_index])}), 200
 
     except Exception as e:
